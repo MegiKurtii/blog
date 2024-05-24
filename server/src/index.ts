@@ -5,14 +5,13 @@ import mongoose from 'mongoose';
 import postRoutes from './routes/posts';
 const app = express();
 
-app.use('/posts', postRoutes);
+
 app.use(express.json());
 app.use(bodyParser.json({ limit: "30mb" }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
-app.use(cors({
-    origin: 'http://localhost:3000'
-}));
+
+app.use('/posts', postRoutes);
 
 const CONNECTION_URL = 'mongodb+srv://blog:blog1234@cluster0.dpbwgzd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 const PORT = process.env.PORT || 5000;

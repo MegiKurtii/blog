@@ -18,11 +18,22 @@ export default function MainRoutes() {
                         <Header />
                         <Home />
                     </div>} />
-                <Route path="/login" element={<Login />} />
+                <Route path="/login" element={
+                    <div>
+                        <Nav /> <Login />
+                    </div>} />
                 <Route path="/register" element={
-                    <Register />
+                    <div>
+                        <Nav />
+                        <Register />
+                    </div>
                 } />
-                <Route path="/about" element={<About />} />
+                <Route path="/about" element={
+                    <div>
+                        <Nav/>
+                        <About />
+                    </div>
+                } />
                 <Route path="*" element={<Navigate to='/' />} />
             </Routes>
         </BrowserRouter>

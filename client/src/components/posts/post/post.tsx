@@ -1,14 +1,13 @@
 import React from 'react';
-
+import moment from 'moment';
 export interface Post {
     _id: string;
-    selectedFile: any;
+    selectedFile: string;
     title: string | undefined;
-    creator: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined;
-    createdAt: any;
-    tags: any[];
-    description: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined;
-    post:typeof Post;
+    creator: string | React.ReactNode;
+    createdAt: string;
+    tags: string[];
+    description: string | React.ReactNode;
 }
 export interface RootState {
     posts: Post[];
@@ -18,21 +17,22 @@ export interface RootState {
 
 const Post: React.FC<{ post: Post }> = ({ post }) => {
     return (
-        <div className="">
-            <div className="" title={post.title} />
+        <div className="post">
+            <div className="post-title" title={post.title}>
+                {post.title}
+            </div>
             <img src={post.selectedFile} alt="Post" />
             <div>
                 <h6>{post.creator}</h6>
-                <div>{post.createdAt}</div>
+                <div>{moment(post.createdAt).fromNow()}</div>
             </div>
             <div>
-                <h6>{post.tags}</h6>
+                <h6>{post.tags.join(', ')}</h6>
             </div>
             <p>{post.description}</p>
         </div>
-        
-        );
+    );
+};
 
-}
 export default Post;
 

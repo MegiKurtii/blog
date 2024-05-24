@@ -6,7 +6,7 @@ import React from 'react';
 
 const About: React.FC = () => (
     <div>
-        <div className="flex" style={{ justifyContent: 'center', columnGap: '5%', width: '90%', alignItems: 'center', marginTop: '5%', marginBottom: '7%' }}>
+        <div className="flex" style={{ justifyContent: 'center', columnGap: '5%', width: '90%', alignItems: 'center', marginTop: '10%', marginBottom: '7%' }}>
             <div className="flex" style={{ columnGap: '2%', alignItems: 'center', padding: '2%', border: '1px solid black', borderRadius: '6%' }}>
                 <div>
                     <div><img src={aboutMeFood1} alt="Vegan food" style={{ width: '320px', borderRadius: '6%' }} /></div>

@@ -1,8 +1,12 @@
 import React from 'react';
-
 import { useSelector } from 'react-redux';
 import '../../index.css';
-import Post, { RootState }  from './post/post';
+import Post, { Post as PostType } from './post/post';
+
+export interface RootState {
+    posts: PostType[];
+    // Other slices of state
+}
 
 const LoadingSpinner = () => {
     return (
@@ -12,27 +16,20 @@ const LoadingSpinner = () => {
     );
 };
 
-const initialState: RootState = {
-    posts: [],
-    // Other initial state properties
-};
+const Posts: React.FC = () => {
+    const posts = useSelector((state: RootState) => state.posts);
 
-
-const Posts = () => {
-    const posts = useSelector((state:RootState) => state.posts);
- 
     return (
         !posts.length ? <LoadingSpinner /> : (
-            <div className=" align-items:strech spacing:13">
+            <div className="grid align-items-stretch spacing-13">
                 {posts.map((post) => (
                     <div key={post._id} className="grid-item">
-                        <Post post={post}/>
-                        </div>
+                        <Post post={post} />
+                    </div>
                 ))}
-              
             </div>
-            )
+        )
     );
-}
+};
 
 export default Posts;

@@ -6,7 +6,7 @@ const Header = () => {
         <header>
 
             <div className="container" style={{
-                backgroundImage: `url(${recipes})`, opacity: 0.65, height: '550px', backgroundSize: 'cover', backgroundRepeat: 'no-repeat'
+                backgroundImage: `url(${recipes})`, opacity: 0.65, height: '550px', backgroundSize: 'cover', backgroundRepeat: 'no-repeat',maxWidth:'2000px'
             }}>
 
             </div>

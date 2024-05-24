@@ -2,8 +2,6 @@ import axios from 'axios';
 import { Dispatch } from 'redux';
 import * as api from '../api';
 
-
-
 // Action creators
 export const getPosts = () => async (dispatch:Dispatch) => {
   
