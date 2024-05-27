@@ -12,9 +12,6 @@ interface FormProps {
 }
 
 const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
-    /* const post = useSelector((state) => {
-         return currentId ? state.posts.find((p: { _id: any; }) => p._id = currentId) : null;
-     });*/
     const [postData, setPostData] = useState({
         creator: '',
         title: '',
@@ -43,6 +40,7 @@ const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
     };
 
 
+
     const handleClear = () => {
         setCurrentId(null);
         setPostData({
@@ -53,6 +51,7 @@ const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
             selectedFile: '',
         });
     };
+
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
@@ -63,7 +62,6 @@ const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
             reader.readAsDataURL(file);
         }
     };
-
 
     return (
         <div className="bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-8" style={{width:'35%'}}>

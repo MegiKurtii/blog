@@ -19,7 +19,7 @@ const auth = async (req: AuthRequest, res: Response, next: NextFunction) => {
         let decodedData: string | JwtPayload; // Define the type of decodedData
 
         if (token && isCustomAuth) {
-            decodedData = jwt.verify(token, 'test') as JwtPayload; // Type assertion
+            decodedData = jwt.verify(token, secret) as JwtPayload; // Type assertion
         } else {
             decodedData = jwt.decode(token) as JwtPayload; // Type assertion
         }

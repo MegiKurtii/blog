@@ -3,7 +3,8 @@ import Home from "../pages/home";
 import Header from "../components/header";
 import Nav from "../components/nav";
 import About from "../pages/about";
-import Auth from '../components/auth';
+import Auth from '../components/signin';
+import AuthRegister from '../components/auth';
 
 export default function MainRoutes() {
     return (
@@ -17,7 +18,7 @@ export default function MainRoutes() {
                         <Header />
                         <Home />
                     </div>} />
-                <Route path="/auth" element={
+                <Route path="/signin" element={
                     <div>
                         <Nav />
                         <Auth />
@@ -27,6 +28,12 @@ export default function MainRoutes() {
                     <div>
                         <Nav/>
                         <About />
+                    </div>
+                } />
+                <Route path="/auth" element={
+                    <div>
+                        <Nav />
+                        <AuthRegister />
                     </div>
                 } />
                 <Route path="*" element={<Navigate to='/' />} />

@@ -1,25 +1,34 @@
 import React, { useState, FormEvent, ChangeEvent} from 'react';
 import '../index.css';
 import { useDispatch } from 'react-redux';
-import { signin, signup  } from '../controllers/auth';
-import { useNavigate } from 'react-router-dom';
+import { signup  } from '../controllers/auth';
+import { useNavigate, Link  } from 'react-router-dom';
 
-const Auth: React.FC = () => {
+const AuthRegister: React.FC = () => {
 
-    const dispatch: any = useDispatch();
+
+    const dispatch :any= useDispatch();
     const navigate = useNavigate();
 
-    const [formData, setFormData] = useState({ name: '', lastname: '', email: '', password: '', confirmPassword: '' });
+    const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', password: '', confirmPassword: '' });
     const [showPassword, setShowPassword] = useState(false);
-    const [isRegister, setIsRegister] = useState(false);
+
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (isRegister) {
+        if (formData.firstName.trim() === '' ||
+            formData.lastName.trim() === '' ||
+            formData.email.trim() === '' ||
+            formData.password.trim() === '' ||
+            formData.confirmPassword.trim() === '') {
+            alert('All fields are required');
+            return;
+        }
+
+        if (formData.password !== formData.confirmPassword) {
+            alert('Passwords do not match');
+            return;
+        }
             dispatch(signup(formData, navigate))
-        }
-        else {
-            dispatch(signin(formData, navigate))
-        }
     };
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -30,41 +39,29 @@ const Auth: React.FC = () => {
     const handleShowPassword = () =>
         setShowPassword((prevShowPassword) => !prevShowPassword);
 
-    const switchMode = () => {
-        setIsRegister((prevIsRegister) => !prevIsRegister);
-    }
     return (
         <div className="absolute left-1/2 -translate-x-1/2"
             style={{ width: '25%', backgroundColor: 'aliceblue', padding: '1%', marginTop: '7%' }}>
-            <h1 className="text-lg text-center py-2">{isRegister ? 'Register' : 'Log In'}</h1>
+            <h1 className="text-lg text-center py-2">Register</h1>
             <form onSubmit={handleSubmit}>
-                <div>
-                    {
-                        isRegister && (
-                            <>
-                                <input
-                                    type="text"
-                                    name="name"
-                                    value={formData.name}
-                                    required
-                                    placeholder="name"
-                                    className="w-full border border-gray-300 rounded"
-                                    onChange={handleChange}
-                                    style={{ padding: '1%', marginBottom: '1.5rem' }} />
-                                <input
-                                    type="text"
-                                    required
-                                    placeholder="lastname"
-                                    value={formData.lastname}
-                                    name="lastname"
-                                    onChange={handleChange}
-                                    className="w-full  border border-gray-300 rounded"
-                                    style={{ padding: '1%', marginBottom: '1.5rem' }} />
-
-                            </>
-                            )
-                    }
-                </div>
+            <input
+                type="text"
+                    name="firstName"
+                value={formData.firstName}
+                required
+                    placeholder="firstName"
+                className="w-full border border-gray-300 rounded"
+                onChange={handleChange}
+                style={{ padding: '1%', marginBottom: '1.5rem' }} />
+            <input
+                type="text"
+                required
+                    placeholder="lastName"
+                    value={formData.lastName}
+                    name="lastName"
+                onChange={handleChange}
+                className="w-full  border border-gray-300 rounded"
+                style={{ padding: '1%', marginBottom: '1.5rem' }} />
                 <input
                     type="email"
                     required
@@ -83,7 +80,6 @@ const Auth: React.FC = () => {
                     onChange={handleChange}
                     onClick={handleShowPassword}
                     style={{ padding: '1%', marginBottom: '1.5rem' }} />
-                {isRegister &&
                     <input
                     type="password"
                     name="confirmPassword"
@@ -93,22 +89,18 @@ const Auth: React.FC = () => {
                         className="w-full border border-gray-300 rounded"
                         onChange={handleChange}
                         style={{ padding: '1%', marginBottom: '1.5rem' }} />
-                }
                     <button
                         type="submit"
                         className="border border-gray-300"
                     style={{ width: '30%', padding: '1%', marginLeft: '35%', marginBottom: '1.5rem' }}>
-                    {isRegister ? 'Register' : 'Login'}
+                    Register
                 </button>
                 <div>
-                    <button onClick={switchMode}>
-                        {isRegister ? 'Already have an account? Log In' :
-                            "Don't have an account yet? Sign Up"}
-                    </button>
+                    Don't have an account yet? <Link to="/signin">Sign in</Link>
                 </div>
             </form>
         </div>
     );
 };
 
-export default Auth;
+export default AuthRegister;
