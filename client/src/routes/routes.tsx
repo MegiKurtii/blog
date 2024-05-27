@@ -1,10 +1,9 @@
 import { BrowserRouter, Routes, Route, Navigate, Link } from "react-router-dom";
 import Home from "../pages/home";
-import Login from "../pages/login";
-import Register from "../pages/register";
 import Header from "../components/header";
 import Nav from "../components/nav";
 import About from "../pages/about";
+import Auth from '../components/auth';
 
 export default function MainRoutes() {
     return (
@@ -18,14 +17,10 @@ export default function MainRoutes() {
                         <Header />
                         <Home />
                     </div>} />
-                <Route path="/login" element={
-                    <div>
-                        <Nav /> <Login />
-                    </div>} />
-                <Route path="/register" element={
+                <Route path="/auth" element={
                     <div>
                         <Nav />
-                        <Register />
+                        <Auth />
                     </div>
                 } />
                 <Route path="/about" element={

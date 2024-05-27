@@ -1,26 +1,25 @@
-import { AnyAction } from 'redux';
-interface PostsState {
-    loading: boolean;
-    error: string | null;
-    posts: any[];
-}
 
-const initialState: PostsState = {
-    loading: false,
-    error: null,
-    posts: [],
-};
+import { Post } from '../components/posts/post/post';
 
-const postsReducer = (state = initialState, action: AnyAction): PostsState => {
+
+
+const postsReducer = (posts: Post[] = [], action: any) => {
     switch (action.type) {
-        /*  case 'UPDATE':
-              return posts.map((post) =>post._id=action.payload._id ? action.payload:post);*/
+        case 'DELETE':
+            return posts.filter((post) => post._id !== action.payload);
+        case 'UPDATE':
+            return posts.map((post) => post._id === action.payload._id ? action.payload : post);
         case 'FETCH_ALL':
-            return { ...state, loading: true, error: null };
+            return action.payload;
         case 'CREATE':
-            return { ...state,  posts: action.payload, loading: false };
+            return [...posts, action.payload];
         default:
-            return state;
+            return posts;
     }
 };
+
 export default postsReducer;
+
+
+
+

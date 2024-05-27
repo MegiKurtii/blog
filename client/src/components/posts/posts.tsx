@@ -1,7 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import '../../index.css';
-import Post, { Post as PostType } from './post/post';
+import Post from './post/post';
+import { Post as PostType } from './post/post';
 
 export interface RootState {
     posts: PostType[];
@@ -15,16 +16,20 @@ const LoadingSpinner = () => {
         </div>
     );
 };
+interface PostsProps {
+    setCurrentId: React.Dispatch<React.SetStateAction<string | null>>;
+}
 
-const Posts: React.FC = () => {
+const Posts: React.FC<PostsProps> = ({ setCurrentId }) => {
     const posts = useSelector((state: RootState) => state.posts);
 
     return (
         !posts.length ? <LoadingSpinner /> : (
-            <div className="grid align-items-stretch spacing-13">
+            <div className="grid" style={{
+                gridTemplateColumns: 'repeat(3, 1fr)',gap: '10px' }}>
                 {posts.map((post) => (
                     <div key={post._id} className="grid-item">
-                        <Post post={post} />
+                        <Post post={post} setCurrentId={ setCurrentId}/>
                     </div>
                 ))}
             </div>

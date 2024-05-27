@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../index.css'; // Import your styles
 import Posts from '../components/posts/posts';
 import Form from '../components/forms/addPostForm';
+
 const Home: React.FC = () => {
-    const currentId = null;
-    const setCurrentId = () => { };
+    
+    const [currentId, setCurrentId] = useState<string | null>(null);
+
+
     return (
         <div>
-            <div className="grid">
-                <Posts />
+            <div>
+                <Posts setCurrentId={setCurrentId}/>
             </div>
-            <div className="grid">
+            <div>
                 <Form currentId={currentId} setCurrentId={setCurrentId}/>
             </div>
         </div>
