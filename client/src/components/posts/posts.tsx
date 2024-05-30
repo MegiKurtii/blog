@@ -5,8 +5,8 @@ import Post from './post/post';
 import { Post as PostType } from './post/post';
 
 export interface RootState {
-    posts: PostType[];
-    // Other slices of state
+        posts: PostType[];
+   
 }
 
 const LoadingSpinner = () => {
@@ -16,20 +16,22 @@ const LoadingSpinner = () => {
         </div>
     );
 };
+
 interface PostsProps {
     setCurrentId: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 const Posts: React.FC<PostsProps> = ({ setCurrentId }) => {
-    const posts = useSelector((state: RootState) => state.posts);
+    const posts  = useSelector((state: RootState) => state.posts);
 
     return (
         !posts.length ? <LoadingSpinner /> : (
             <div className="grid" style={{
-                gridTemplateColumns: 'repeat(3, 1fr)',gap: '10px' }}>
+                gridTemplateColumns: 'repeat(2, 45%)', paddingLeft: '5%',width:'80%'
+            }}>
                 {posts.map((post) => (
                     <div key={post._id} className="grid-item">
-                        <Post post={post} setCurrentId={ setCurrentId}/>
+                        <Post post={post} setCurrentId={setCurrentId} />
                     </div>
                 ))}
             </div>

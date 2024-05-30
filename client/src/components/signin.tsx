@@ -2,19 +2,21 @@ import React, { useState, FormEvent, ChangeEvent } from 'react';
 import '../index.css';
 import { useDispatch } from 'react-redux';
 import { signin } from '../controllers/auth';
-import { useNavigate, Link } from 'react-router-dom';
-
+import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
 const Auth: React.FC = () => {
+
 
     const dispatch: any = useDispatch();
     const navigate = useNavigate();
-
+    
     const [formData, setFormData] = useState({ email: '', password: '' });
     const [showPassword, setShowPassword] = useState(false);
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-            dispatch(signin(formData, navigate))
+        dispatch(signin(formData, navigate))
     };
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -27,38 +29,46 @@ const Auth: React.FC = () => {
 
 
     return (
-        <div className="absolute left-1/2 -translate-x-1/2"
-            style={{ width: '25%', backgroundColor: 'aliceblue', padding: '1%', marginTop: '7%' }}>
+        <div className="absolute left-1/2 transform -translate-x-1/2 w-1/4 p-4 mt-7 rounded-lg shadow-lg" style={{ backgroundColor: 'aliceblue', marginTop: '10%' }}>
             <h1 className="text-lg text-center py-2">Log In</h1>
             <form onSubmit={handleSubmit}>
                 <input
                     type="email"
                     required
                     name="email"
-                    placeholder="email"
+                    placeholder="Email"
                     value={formData.email}
-                    className="w-full border border-gray-300 rounded"
+                    className="w-full border border-gray-300 rounded p-2 mb-6"
                     onChange={handleChange}
-                    style={{ padding: '1%', marginBottom: '1.5rem' }} />
-                <input
-                    type={showPassword ? "text" : "password"}
-                    required placeholder="password"
-                    name="password"
-                    value={formData.password}
-                    className="w-full border border-gray-300 rounded"
-                    onChange={handleChange}
-                    onClick={handleShowPassword}
-                    style={{ padding: '1%', marginBottom: '1.5rem' }} />
+                />
+                <div className="relative">
+                    <input
+                        type={showPassword ? "text" : "password"}
+                        required
+                        placeholder="Password"
+                        name="password"
+                        value={formData.password}
+                        className="w-full border border-gray-300 rounded p-2 mb-6"
+                        onChange={handleChange}
+                    />
+                    <span
+                        className="absolute right-2 top-2 cursor-pointer"
+                        onClick={handleShowPassword}
+                    >
+                        <FontAwesomeIcon icon={faEye} />
+                    </span>
+                </div>
+                  
                 <button
                     type="submit"
-                    className="border border-gray-300"
-                    style={{ width: '30%', padding: '1%', marginLeft: '35%', marginBottom: '1.5rem' }}>
+                    className="w-1/3 bg-blue-500 text-white py-2 rounded mx-auto block hover:bg-blue-600"
+                >
                     Login
                 </button>
-                <div>
-                    <div>
-                        <Link to="/auth">Don't have an account?Register</Link>
-                    </div>
+                <div className="mt-4 text-center">
+                    <Link to="/auth" className="text-blue-500 hover:underline">
+                        Don't have an account yet? Register
+                    </Link>
                 </div>
             </form>
         </div>

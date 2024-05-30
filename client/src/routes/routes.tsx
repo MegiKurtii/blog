@@ -1,12 +1,15 @@
-import { BrowserRouter, Routes, Route, Navigate, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "../pages/home";
 import Header from "../components/header";
 import Nav from "../components/nav";
 import About from "../pages/about";
 import Auth from '../components/signin';
-import AuthRegister from '../components/auth';
+import AuthRegister from '../pages/signup';
+import PostDetails from '../components/postDetails'; 
 
 export default function MainRoutes() {
+    const userString = localStorage.getItem('profile');
+    const user = userString ? JSON.parse(userString) : null;
     return (
 
         <BrowserRouter>
@@ -26,7 +29,7 @@ export default function MainRoutes() {
                 } />
                 <Route path="/about" element={
                     <div>
-                        <Nav/>
+                        <Nav />
                         <About />
                     </div>
                 } />

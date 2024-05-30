@@ -2,7 +2,7 @@
 import { AUTH} from '../constants/actionTypes';
 import * as api from '../api/index';
 
-export const signin = (formData: object, navigate: any) => async (dispatch: any) => {
+export const signin = (formData: { email: string, password: string }, navigate: any) => async (dispatch: any) => {
     try {
         const data = await api.signIn(formData);
         

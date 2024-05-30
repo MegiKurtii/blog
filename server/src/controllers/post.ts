@@ -11,6 +11,27 @@ export const getPosts = async (req: Request, res: Response) => {
         res.status(404);
     }
 }
+
+export const getPostBySearch = async (req: Request, res: Response) => {
+    const { searchQuery, tags } = req.query;
+
+    // Check if req.query is defined
+    if (!searchQuery || !tags) {
+        return res.status(400).json({ message: "searchQuery and tags are required." });
+    }
+
+    try {
+        const title = new RegExp(searchQuery as string, 'i');
+
+        const posts = await PostMessage.find({ $or: [{ title }, { tags: { $in: (tags as string).split(',') } }] })
+        res.json({ data: posts });
+    }
+    catch (error) {
+        console.error(error);
+        res.status(404).json({ message: "Failed to fetch posts." });
+    }
+}
+
 export const createPost = async (req: Request, res: Response) => {
     const post = req.body;
     const newPost = new PostMessage(post);

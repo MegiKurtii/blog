@@ -4,7 +4,6 @@ import './index.css';
 import { useDispatch } from 'react-redux';
 import { getPosts } from './controllers/posts';
 import { AppDispatch } from './index'; 
-import { useState } from 'react';
 
 const App: React.FC = () => {
     const dispatch: AppDispatch = useDispatch(); 
@@ -13,6 +12,7 @@ const App: React.FC = () => {
         dispatch(getPosts());
     }, [dispatch]);
 
+
     return (
         <div>
             <MainRoutes />
@@ -20,3 +20,5 @@ const App: React.FC = () => {
     );
 }
 export default App;
+
+

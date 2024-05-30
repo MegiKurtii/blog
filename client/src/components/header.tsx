@@ -1,12 +1,12 @@
 
 import recipes from '../images/recipes.jpg'
-import '../index.css'; // Import your styles
+import '../index.css'; 
 const Header = () => {
     return (
         <header>
 
             <div className="container" style={{
-                backgroundImage: `url(${recipes})`, opacity: 0.65, height: '550px', backgroundSize: 'cover', backgroundRepeat: 'no-repeat',maxWidth:'2000px'
+                backgroundImage: `url(${recipes})`, opacity: 0.65, height: '550px', backgroundSize: 'cover', backgroundRepeat: 'no-repeat',maxWidth:'2000px',marginBottom:'7%'
             }}>
 
             </div>
@@ -16,8 +16,7 @@ const Header = () => {
     )
 }
 export default Header;
-/*           <h1 className="absolute z-10 left-1/2 -translate-x-1/2 border border-transparent p-1 bg-white bg-opacity-75 top-1/3 ">
-                VeggieVibes: A Plant-Powered Kitchen
-            </h1>
-              
+/*                      <span style={{ padding: '3%', marginRight: '5%', fontFamily: 'cursive' }}>
+                <span style={{ fontSize:'larger' }}> VeggieVibes: </span>A Plant-Powered Kitchen
+            </span>
             */
