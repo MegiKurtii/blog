@@ -6,11 +6,12 @@ import { deletePosts} from '../../../controllers/posts'
 
 
 export interface Post {
+    name: string;
     _id: string | null;
     title: string;
     selectedFile: string;
-    creator: string;
     createdAt: Date;
+    creator:string,
     tags: string[];
     description: string;
 }
@@ -25,6 +26,7 @@ const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
     const handleClick = () => {
         setCurrentId(post._id);
     };
+    const user = JSON.parse(localStorage.getItem('profile') || '{}');
 
     return (
         <div className="rounded overflow-hidden shadow-lg p-4 m-4 bg-white border border-gray-200 relative transition duration-300 ease-in-out transform hover:-translate-y-1"
@@ -46,23 +48,26 @@ const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
                 ))}
             </div>
             <div className="flex items-center justify-between mb-4">
-                <span className="text-gray-800 font-semibold">{post.creator}</span>
+                <span className="text-gray-800 font-semibold">{post.name}</span>
                 <span className="text-gray-500">{moment(post.createdAt).fromNow()}</span>
             </div>
-            <div className="flex items-center justify-between">
-                <button
-                    onClick={handleClick}
-                    className="bg-blue-500 hover:bg-blue-600 focus:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:-translate-y-1"
-                >
-                    Edit
-                </button>
-                <button
-                    onClick={() => dispatch(deletePosts(post._id))}
-                    className="bg-red-500 hover:bg-red-600 focus:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:-translate-y-1"
-                >
-                    Delete
-                </button>
-            </div>
+            {( user?.result?._id === post?.creator) && (
+                <div className="flex items-center justify-between">
+                    <button
+                        onClick={handleClick}
+                        className="bg-blue-500 hover:bg-blue-600 focus:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:-translate-y-1"
+                    >
+                        Edit
+                    </button>
+                    <button
+                        onClick={() => dispatch(deletePosts(post._id))}
+                        className="bg-red-500 hover:bg-red-600 focus:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:-translate-y-1"
+                    >
+                        Delete
+                    </button>
+                </div>
+            )}
+            
         </div>
     );
 };

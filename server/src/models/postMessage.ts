@@ -2,18 +2,20 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 // Define the interface for the document
 interface IPost extends Document {
-    creator: string;
     title: string;
+    name: string;
     description: string;
     tags: string[];
     selectedFile: string;
     createdAt: Date;
+    creator: String;
 }
 
 // Define the schema
 const postSchema: Schema<IPost> = new Schema({
-    creator: String,
     title: String,
+    creator: String,
+    name: String,
     description: String,
     tags: [String],
     selectedFile: String,

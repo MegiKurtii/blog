@@ -9,33 +9,28 @@ interface AuthRequest extends Request {
 const auth = async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
         const authorizationHeader = req.headers.authorization;
+
         if (!authorizationHeader) {
             throw new Error('Authorization header not found');
         }
 
         const token = authorizationHeader.split(" ")[1];
-        const isCustomAuth = token.length < 500;
+        const isCustomAuth = token?.length && token.length < 500;
 
-        let decodedData: string | JwtPayload; // Define the type of decodedData
+        let decodedData: string | JwtPayload | undefined;
 
         if (token && isCustomAuth) {
-            decodedData = jwt.verify(token, secret) as JwtPayload; // Type assertion
+            decodedData = jwt.verify(token, secret) as JwtPayload;
+            req.userId = decodedData?.id ? String(decodedData.id) : '';
         } else {
-            decodedData = jwt.decode(token) as JwtPayload; // Type assertion
-        }
-
-        if (typeof decodedData === 'string') {
-            // Handle the case where decodedData is a string
-            throw new Error('Invalid token');
-        } else {
-            req.userId = decodedData.id as string; // Type assertion
+            decodedData = jwt.decode(token) as JwtPayload;
+            req.userId = decodedData?.sub ? String(decodedData.sub) : '';
         }
 
         next();
-    }
-    catch (error) {
+    } catch (error) {
         console.log(error);
     }
-}
+};
 
 export default auth;

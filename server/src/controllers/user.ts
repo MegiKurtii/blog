@@ -1,38 +1,48 @@
 import { Request, Response } from 'express';
-import { validationResult } from 'express-validator';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import User from '../models/Users'; // Assuming you have a secret key stored in a config file
+import User from '../models/Users'; 
 
 const secret = 'test';
-export const signin = async (req: Request, res: Response) => {
+
+export const signin = async (req:Request, res:Response) => {
     const { email, password } = req.body;
+
     try {
-        User.findOne({ email: email })
-            .then(User => {
-                if (User) {
-                    if (User.password === password) {
-                        res.json("Success");
-                    } else {
-                        res.json("the password is incorrect");
-                    }
-                } else {
-                    res.json("no record exists");
-                }
-            });
-    } catch (error) {
-        
-        res.status(500).json({ message: "Server Error" });
+        const oldUser = await User.findOne({ email });
+
+        if (!oldUser) return res.status(404).json({ message: "User doesn't exist" });
+
+        const isPasswordCorrect = await bcrypt.compare(password, oldUser.password);
+
+        if (!isPasswordCorrect) return res.status(400).json({ message: "Invalid credentials" });
+
+        const token = jwt.sign({ email: oldUser.email, id: oldUser._id }, secret, { expiresIn: "1h" });
+
+        res.status(200).json({ result: oldUser, token });
+    } catch (err) {
+        res.status(500).json({ message: "Something went wrong" });
     }
 };
-   
 
-    export const signup = async (req: Request, res: Response) => {
+export const signup = async (req: Request, res: Response) => {
+    const { email, password, firstName, lastName } = req.body;
 
-        User.create(req.body)
-            .then(users => res.json(users))
-            .catch(err => res.json(err))
+    try {
+        const oldUser = await User.findOne({ email });
 
+        if (oldUser) return res.status(400).json({ message: "User already exists" });
+
+        const hashedPassword = await bcrypt.hash(password, 12);
+
+        const result = await User.create({ email, password: hashedPassword, name: `${firstName} ${lastName}` });
+
+        const token = jwt.sign({ email: result.email, id: result._id }, secret, { expiresIn: "1h" });
+
+        res.status(201).json({ result, token });
+    } catch (error) {
+        res.status(500).json({ message: "Something went wrong" });
+
+        console.log(error);
     }
-
-  
+};

@@ -66,7 +66,7 @@ const Nav: React.FC = () => {
             <Link to="/about" style={{ padding: '3%', marginRight: '4%' }}>About</Link>
             <span>
                 {user ? (
-                        <span>{`${user.lastName} ${user.firstName}`}
+                    <span>{ user?.result.name}
                         <button onClick={logout} style={{ padding: '3%' }}>Logout</button>
                         </span>
                 ) : (

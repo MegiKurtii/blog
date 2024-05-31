@@ -8,8 +8,6 @@ import AuthRegister from '../pages/signup';
 import PostDetails from '../components/postDetails'; 
 
 export default function MainRoutes() {
-    const userString = localStorage.getItem('profile');
-    const user = userString ? JSON.parse(userString) : null;
     return (
 
         <BrowserRouter>
@@ -20,6 +18,16 @@ export default function MainRoutes() {
                         <Nav />
                         <Header />
                         <Home />
+                    </div>} />
+                <Route path="/posts/search" element={
+                    <div>
+                        <Nav />
+                        <Header />
+                        <Home />
+                    </div>} />
+                <Route path="/posts/:id" element={
+                    <div>
+                        <PostDetails />
                     </div>} />
                 <Route path="/signin" element={
                     <div>

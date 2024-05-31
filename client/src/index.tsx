@@ -16,7 +16,7 @@ export type AppThunk<ReturnType = void> = ThunkAction<
     RootState,
     unknown,
     AnyAction
-    >;
+>;
 
 const preloadedState = {
     posts: [],

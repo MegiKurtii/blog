@@ -4,15 +4,13 @@ import * as api from '../api/index';
 
 export const signin = (formData: { email: string, password: string }, navigate: any) => async (dispatch: any) => {
     try {
-        const data = await api.signIn(formData);
-        
-        dispatch({ type: AUTH, data });
+        const { data } = await api.signIn(formData);
+        dispatch({ type: 'AUTH', data });
         navigate('/');
+    } catch (error) {
+        console.log('Error during sign in:', error);
     }
-    catch (error) {
-        console.log(error);
-    }
-}
+};
 
 export const signup = (formData: object, navigate: any) => async (dispatch: any) => {
     try {

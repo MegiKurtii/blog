@@ -1,7 +1,7 @@
 
 import { Dispatch } from 'redux';
 import * as api from '../api';
-import { FETCH_BY_SEARCH,FETCH_ALL,CREATE,UPDATE,DELETE} from '../constants/actionTypes';
+import { FETCH_BY_SEARCH, FETCH_ALL, CREATE, UPDATE, DELETE, START_LOADING, END_LOADING} from '../constants/actionTypes';
 
 export const getPosts = () => async (dispatch:Dispatch) => {
   
@@ -14,15 +14,17 @@ export const getPosts = () => async (dispatch:Dispatch) => {
     }
 };
 
-export const getPostBySearch = (searchQuery: any) => async (dispatch: Dispatch) =>{
+export const getPostBySearch = (searchQuery: any) => async (dispatch: Dispatch) => {
     try {
-        const { data: { data } } = await api.fetchPostBySearch(searchQuery);
+        dispatch({ type: START_LOADING });
+        const { data: { data } } = await api.fetchPostsBySearch(searchQuery);
 
-        dispatch({ type: FETCH_BY_SEARCH, payload: data });
+        dispatch({ type: FETCH_BY_SEARCH, payload: { data } });
+        dispatch({ type: END_LOADING });
     } catch (error) {
         console.log(error);
     }
-}
+};
 
 export const createPosts = (post: object) => async (dispatch: Dispatch) => {
     try {
