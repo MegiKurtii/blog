@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import { useDispatch } from 'react-redux';
-import { deletePosts} from '../../../controllers/posts'
+import { deletePosts } from '../../../controllers/posts'
 
 
 
@@ -11,7 +11,7 @@ export interface Post {
     title: string;
     selectedFile: string;
     createdAt: Date;
-    creator:string,
+    creator: string,
     tags: string[];
     description: string;
 }
@@ -30,7 +30,7 @@ const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
 
     return (
         <div className="rounded overflow-hidden shadow-lg p-4 m-4 bg-white border border-gray-200 relative transition duration-300 ease-in-out transform hover:-translate-y-1"
-            style={{ width: '85%'}}
+            style={{ width: '85%' }}
         >
 
             {post.selectedFile && (
@@ -41,7 +41,7 @@ const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
                     </div>
                 </div>
             )}
-            <p className="text-gray-700 text-base mb-4">{post.description}</p><hr/>
+            <p className="text-gray-700 text-base mb-4">{post.description}</p><hr />
             <div className="text-sm text-gray-600 mb-4">
                 {post.tags.map((tag, index) => (
                     <span key={index} className="inline-block bg-gray-200 text-gray-800 px-2 py-1 rounded mr-2 mt-2">{`#${tag}`}</span>
@@ -51,7 +51,7 @@ const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
                 <span className="text-gray-800 font-semibold">{post.name}</span>
                 <span className="text-gray-500">{moment(post.createdAt).fromNow()}</span>
             </div>
-            {( user?.result?._id === post?.creator) && (
+            {(user?.result?._id === post?.creator) && (
                 <div className="flex items-center justify-between">
                     <button
                         onClick={handleClick}
@@ -67,9 +67,9 @@ const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
                     </button>
                 </div>
             )}
-            
+
         </div>
     );
 };
-    
+
 export default Post;

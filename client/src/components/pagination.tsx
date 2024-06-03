@@ -1,35 +1,37 @@
 import React from 'react';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getPosts } from '../controllers/posts';
 import '../index.css';
 
 interface PaginationProps {
-    count: number;
-    currentPage: number;
+    currentPage: any;
+    totalPages: any;
+    url: any;
 }
 
-const MyPagination: React.FC<PaginationProps> = ({ count, currentPage }) => {
+const MyPagination: React.FC<PaginationProps> = ({ currentPage, totalPages, url }) => {
 
-    const dispatch:any = useDispatch();
+    const numberOfPages = [];
+    for (let i = 1; i <= totalPages; i++) {
+        numberOfPages.push(i);
+    }
+    const dispatch :any = useDispatch();
 
-    const pages = Array.from({ length: count }, (_, i) => i + 1);
+
     useEffect(() => {
-        if (currentPage) dispatch(getPosts());
-    }, [currentPage]);
-
+        if (currentPage) {
+            dispatch(getPosts(currentPage));
+        }
+    }, [dispatch, currentPage]);
     return (
-        <nav className="flex justify-center my-4">
-            <ul className="flex">
-                {pages.map((page) => (
-                    <li key={page}>
-                        <Link
-                            to={`/posts?page=${page}`}
-                            className={`px-3 py-1 mx-1 rounded-md ${currentPage === page ? "bg-blue-500 text-white" : "bg-gray-200"
-                                } hover:bg-blue-600 hover:text-white`}
-                        >
-                            {page}
+        <nav>
+            <ul className='pagination'>
+                {numberOfPages.map(number => (
+                    <li key={number} className='page-item'>
+                        <Link to={`${url}?page=${number}`} className={number === currentPage ? 'page-link active' : 'page-link'}>
+                            {number}
                         </Link>
                     </li>
                 ))}

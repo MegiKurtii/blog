@@ -7,34 +7,47 @@ interface AuthRequest extends Request {
 }
 
 export const getPosts = async (req: Request, res: Response) => {
+    const { page } = req.query;
     try {
-        const postMessages = await PostMessage.find();
-        res.status(200).json(postMessages);
-    }
-    catch (error) {
-        console.error(error);
-        res.status(404).json({ message: "Failed to fetch posts." });
+        const LIMIT = 4;
+        const startIndex = (Number(page) - 1) * LIMIT; 
+
+        const total = await PostMessage.countDocuments({});
+        const posts = await PostMessage.find().sort({ _id: -1 }).limit(LIMIT).skip(startIndex);
+
+        res.json({ data: posts, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) });
+    } catch (error) {
+        console.log(error);;
     }
 }
 
-export const getPostBySearch = async (req: Request, res: Response) => {
-    const { searchQuery, tags } = req.query;
 
-    if (!searchQuery || !tags) {
-        return res.status(400).json({ message: "searchQuery and tags are required." });
-    }
+export const getPostsBySearch = async (req: Request, res: Response): Promise<void> => {
+    const { searchQuery, tags, name, description } = req.query as { searchQuery?: string; tags?: string; name?: string; description?: string};
 
     try {
-        const title = new RegExp(searchQuery as string, 'i');
+        const titleRegex = searchQuery ? new RegExp(searchQuery, 'i') : undefined;
+        const nameRegex = name ? new RegExp(name, 'i') : undefined;
+        const tagArray = tags ? tags.split(',').map(tag => new RegExp(tag.trim(), 'i')) : [];
+        const descriptionRegex = description ? new RegExp(description, 'i') : undefined;
 
-        const posts = await PostMessage.find({ $or: [{ title }, { tags: { $in: (tags as string).split(',') } }] })
+        const query = {
+            $or: [
+                ...(titleRegex ? [{ title: titleRegex }] : []),
+                ...(descriptionRegex ? [{ description: descriptionRegex }] : []),
+                ...(nameRegex ? [{ name: nameRegex }] : []),
+                ...(tagArray.length > 0 ? [{ tags: { $in: tagArray } }] : [])
+            ]
+        };
+
+        const posts = await PostMessage.find(query);
+
         res.json({ data: posts });
-    }
-    catch (error) {
-        console.error(error);
+    } catch (error) {
+        console.error('Failed to fetch posts:', error);
         res.status(404).json({ message: "Failed to fetch posts." });
     }
-}
+};
 
 export const getPost = async (req: Request, res: Response) => {
     const { id } = req.params;
@@ -58,7 +71,7 @@ export const createPost = async (req: AuthRequest, res: Response) => {
 
         res.status(201).json(newPostMessage);
     } catch (error) {
-        console.error(error);
+        console.log(error);;
     }
 }
 
@@ -86,4 +99,3 @@ export const deletePost = async (req: Request, res: Response) => {
 
     res.json({ message: "Post deleted successfully." });
 }
-

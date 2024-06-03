@@ -5,9 +5,10 @@ import Nav from "../components/nav";
 import About from "../pages/about";
 import Auth from '../components/signin';
 import AuthRegister from '../pages/signup';
-import PostDetails from '../components/postDetails'; 
+import PostDetails from '../components/postDetails';
 
 export default function MainRoutes() {
+
     return (
 
         <BrowserRouter>

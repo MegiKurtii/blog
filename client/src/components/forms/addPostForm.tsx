@@ -2,6 +2,7 @@ import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import { createPosts, updatePosts } from '../../controllers/posts';
 import '../../index.css';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 interface FormProps {
     currentId: string | null;
@@ -35,21 +36,24 @@ const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
 
     const user: User = JSON.parse(localStorage.getItem('profile') || '{}');
 
-    const post = useSelector((state: any) => currentId ? state.posts.find((p: { _id: string; }) => p._id === currentId) : null);
+    const post = useSelector((state:any) => (currentId ? state.posts.posts.find((message: { _id: string; }) => message._id === currentId) : null));
 
     useEffect(() => {
+        if (!post?.title) handleClear();
         if (post) setPostData(post);
     }, [post]);
 
     const dispatch: any = useDispatch();
+    const navigate = useNavigate();
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         if (currentId) {
             dispatch(updatePosts(currentId, { ...postData, name: user?.result?.name }));
+            handleClear();
         } else {
-            dispatch(createPosts({ ...postData, name: user?.result?.name }));
+            dispatch(createPosts({ ...postData, name: user?.result?.name }, navigate ));
         }
         handleClear();
     };

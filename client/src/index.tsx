@@ -5,6 +5,7 @@ import { thunk } from 'redux-thunk';
 import rootReducer from './reducers';
 import { Provider } from 'react-redux';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
+import Post from './components/posts/post/post';
 
 
 
@@ -18,12 +19,27 @@ export type AppThunk<ReturnType = void> = ThunkAction<
     AnyAction
 >;
 
-const preloadedState = {
-    posts: [],
-    authData: { authData: null }
+interface PreloadedState {
+    posts: {
+        isLoading: boolean;
+        posts: typeof Post[]; // You can replace `any` with `Post` if you have defined a Post type
+    };
+    authData: {
+        authData: null;
+    };
+}
+
+const preloadedState: PreloadedState = {
+    posts: {
+        isLoading: true,
+        posts: []
+    },
+    authData: {
+        authData: null
+    }
 };
 
-const store = createStore(rootReducer, preloadedState, applyMiddleware(thunk));
+const store = createStore(rootReducer, preloadedState as any, applyMiddleware(thunk));
 export default store;
 
 const root = ReactDOM.createRoot(
