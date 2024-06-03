@@ -62,7 +62,7 @@ const Home: React.FC = () => {
             <div className="flex">
                 <Posts setCurrentId={setCurrentId} />
                 <div>
-                    <form className="bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-8" style={{ width: '80%', marginLeft: '7%' }}>
+                    <form className="bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-8" style={{ width: '80%', marginLeft: '7%', marginBottom: '4%' }}>
                         <input
                             type="text"
                             name="search"

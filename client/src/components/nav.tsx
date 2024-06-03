@@ -34,6 +34,9 @@ const Nav: React.FC = () => {
 
     return (
         <nav className="absolute z-10 bg-white text-center left-1/2 -translate-x-1/2" style={{ width: '45%', padding: '1%', boxShadow: '-4px 7px 7px gray', borderBottomLeftRadius: '10px', borderBottomRightRadius: '10px', top: '0' }}>
+            <span style={{ padding: '3%', marginRight: '3%', fontFamily: 'cursive' }}>
+                <span style={{ fontSize: 'larger' }}> VeggieVibes </span>
+            </span>
             <Link to="/" style={{ padding: '3%', marginRight: '4%' }}>Home</Link>
             <Link to="/about" style={{ padding: '3%', marginRight: '4%' }}>About</Link>
             <span>

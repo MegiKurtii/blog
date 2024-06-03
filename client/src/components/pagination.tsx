@@ -27,9 +27,9 @@ const MyPagination: React.FC<PaginationProps> = ({ currentPage, totalPages, url 
     }, [dispatch, currentPage]);
     return (
         <nav>
-            <ul className='pagination'>
+            <ul>
                 {numberOfPages.map(number => (
-                    <li key={number} className='page-item'>
+                    <li key={number}>
                         <Link to={`${url}?page=${number}`} className={number === currentPage ? 'page-link active' : 'page-link'}>
                             {number}
                         </Link>
