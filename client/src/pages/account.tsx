@@ -33,8 +33,9 @@ const Account = () => {
     };
 
     return (
-        <div className="overflow-hidden shadow-lg p-4 m-4 bg-white border border-gray-200 relative left-1/2 -translate-x-1/2" style={{ width: '40%', marginTop: '15%', borderRadius:'3%' }}>
-            <div className="w-full ">
+        <div className="overflow-hidden shadow-lg p-4 m-4 bg-white border border-gray-200 relative left-1/2 -translate-x-1/2" style={{ width: '40%', marginTop: '15%', borderRadius: '3%' }}>
+            <h1 className="text-xl mb-2 text-center" style={{ fontWeight:'bolder' }}>Manage your account</h1>
+            <div className="w-full">
                 <div className="text-xl mb-2" style={{marginBottom:'3%'}}>Username: {user?.result.name}</div>
             </div><hr/>
             <div className="w-full ">

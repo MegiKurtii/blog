@@ -71,7 +71,12 @@ const Home: React.FC = () => {
     return (
         <div>
             <div className="flex">
-                <Posts setCurrentId={setCurrentId} />
+                <div style={{width:'65%',marginBottom:'5%'}}>
+                    <Posts setCurrentId={setCurrentId} />
+                    {(!searchQuery && tags.length === 0) && (
+                        <MyPagination page={page} totalPages={3} />
+                    )}
+                </div>
                 <div>
                     <form className="bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-8" style={{ width: '80%', marginLeft: '7%', marginBottom: '4%' }}>
                         <input
@@ -115,9 +120,7 @@ const Home: React.FC = () => {
                         </button>
                     </form>
                     <Form currentId={currentId} setCurrentId={setCurrentId} />
-                    {(!searchQuery && tags.length === 0) && (
-                        <MyPagination page={page} totalPages={3} />
-                    )}
+                   
                 </div>
             </div>
         </div>

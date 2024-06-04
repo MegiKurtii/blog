@@ -68,6 +68,7 @@ const EditAccount = () => {
                         ))}
                     </div>
                 )}
+                <h1 className="text-xl mb-2 text-center" style={{ fontWeight: 'bolder' }}>Edit your account</h1>
                 <div className="w-full">Firstname: 
                     <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} className="text-xl mb-2 sp-2" style={{marginLeft:'1%'}} />
                 </div><hr/>

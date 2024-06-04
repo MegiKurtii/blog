@@ -32,7 +32,7 @@ const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
 
     return (
         <div className="rounded overflow-hidden shadow-lg p-4 m-4 bg-white border border-gray-200 relative transition duration-300 ease-in-out transform hover:-translate-y-1"
-            style={{ width: '85%' }}
+           
         >
 
             {post.selectedFile && (
