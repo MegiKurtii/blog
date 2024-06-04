@@ -1,4 +1,3 @@
-
 import React, { useState, FormEvent, ChangeEvent } from 'react';
 import '../index.css';
 import { useDispatch } from 'react-redux';
@@ -8,7 +7,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 
 const AuthRegister: React.FC = () => {
-
     const dispatch: any = useDispatch();
     const navigate = useNavigate();
 
@@ -42,7 +40,7 @@ const AuthRegister: React.FC = () => {
         setShowPassword((prevShowPassword) => !prevShowPassword);
 
     return (
-        <div className="absolute left-1/2 transform -translate-x-1/2 w-1/4 p-4 rounded-lg shadow-lg" style={{ backgroundColor: 'aliceblue', marginTop: '8%' }}>
+        <div className="absolute left-1/2 transform -translate-x-1/2 w-11/12 md:w-1/3 lg:w-1/4 p-4 rounded-lg shadow-lg" style={{ width: '90%', maxWidth: '400px', marginTop: '10%', backgroundColor: 'aliceblue'}}>
             <h1 className="text-lg text-center py-2">Register</h1>
             <form onSubmit={handleSubmit}>
                 <input
@@ -87,8 +85,8 @@ const AuthRegister: React.FC = () => {
                         onClick={handleShowPassword}
                     >
                         <FontAwesomeIcon icon={faEye} />
-                        </span>
-                    </div>
+                    </span>
+                </div>
                 <input
                     type="password"
                     name="confirmPassword"
@@ -100,7 +98,7 @@ const AuthRegister: React.FC = () => {
                 />
                 <button
                     type="submit"
-                    className="w-1/3 bg-blue-500 text-white py-2 rounded mx-auto block hover:bg-blue-600 mb-6"
+                    className="w-full bg-blue-500 text-white py-2 rounded mx-auto block hover:bg-blue-600 mb-6"
                 >
                     Register
                 </button>

@@ -2,6 +2,8 @@ import React from 'react';
 import moment from 'moment';
 import { useDispatch } from 'react-redux';
 import { deletePosts } from '../../../controllers/posts'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEllipsisV ,faTrash} from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -41,7 +43,7 @@ const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
                     </div>
                 </div>
             )}
-            <p className="text-gray-700 text-base mb-4">{post.description}</p><hr />
+            <p className="text-gray-700 text-base mb-4" style={{ height: '120px', overflowY: 'scroll' }}>{post.description}</p><hr />
             <div className="text-sm text-gray-600 mb-4">
                 {post.tags.map((tag, index) => (
                     <span key={index} className="inline-block bg-gray-200 text-gray-800 px-2 py-1 rounded mr-2 mt-2">{`#${tag}`}</span>
@@ -52,18 +54,20 @@ const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
                 <span className="text-gray-500">{moment(post.createdAt).fromNow()}</span>
             </div>
             {(user?.result?._id === post?.creator) && (
-                <div className="flex items-center justify-between">
+                <div>
                     <button
                         onClick={handleClick}
-                        className="bg-blue-500 hover:bg-blue-600 focus:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:-translate-y-1"
+                        className="absolute text-white  px-2 rounded"
+                        style={{ top: '4%', right: '7%', fontSize: 'larger', backgroundColor:'#00000091' }}
                     >
-                        Edit
+                        <FontAwesomeIcon icon={faEllipsisV} size="sm" />
                     </button>
                     <button
                         onClick={() => dispatch(deletePosts(post._id))}
-                        className="bg-red-500 hover:bg-red-600 focus:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:-translate-y-1"
+                        className="absolute bg-red-500 hover:bg-red-600 focus:bg-red-700 text-white font-bold px-2 rounded "
+                        style={{ top: '4%', left: '7%' }}
                     >
-                        Delete
+                        <FontAwesomeIcon icon={faTrash} size="sm" />
                     </button>
                 </div>
             )}

@@ -11,5 +11,5 @@ export const FETCH_POST = 'FETCH_POST';
 export const END_LOADING = 'END_LOADING';
 export const START_LOADING = 'START_LOADING';
 
-export const UPDATE_ACCOUNT = 'UPDATE_ACCOUNT';
-export const DELETE_ACCOUNT = 'DELETE_ACCOUNT'
+export const UPDATE_USER = 'UPDATE_USER';
+export const DELETE_USER = 'DELETE_USER'

@@ -5,12 +5,11 @@ import { signin } from '../controllers/auth';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
+
 const Auth: React.FC = () => {
-
-
     const dispatch: any = useDispatch();
     const navigate = useNavigate();
-    
+
     const [formData, setFormData] = useState({ email: '', password: '' });
     const [showPassword, setShowPassword] = useState(false);
 
@@ -27,9 +26,8 @@ const Auth: React.FC = () => {
     const handleShowPassword = () =>
         setShowPassword((prevShowPassword) => !prevShowPassword);
 
-
     return (
-        <div className="absolute left-1/2 transform -translate-x-1/2 w-1/4 p-4 mt-7 rounded-lg shadow-lg" style={{ backgroundColor: 'aliceblue', marginTop: '10%' }}>
+        <div className="absolute left-1/2 transform -translate-x-1/2 p-4 rounded-lg shadow-lg" style={{ width: '90%', maxWidth: '400px', marginTop: '15%', backgroundColor:'aliceblue' }}>
             <h1 className="text-lg text-center py-2">Log In</h1>
             <form onSubmit={handleSubmit}>
                 <input
@@ -58,10 +56,10 @@ const Auth: React.FC = () => {
                         <FontAwesomeIcon icon={faEye} />
                     </span>
                 </div>
-                  
+
                 <button
                     type="submit"
-                    className="w-1/3 bg-blue-500 text-white py-2 rounded mx-auto block hover:bg-blue-600"
+                    className="w-full md:w-1/3 bg-blue-500 text-white py-2 rounded mx-auto block hover:bg-blue-600"
                 >
                     Login
                 </button>

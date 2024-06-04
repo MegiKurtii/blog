@@ -8,19 +8,29 @@ interface AuthRequest extends Request {
 
 export const getPosts = async (req: Request, res: Response) => {
     const { page } = req.query;
-    try {
-        const LIMIT = 4;
-        const startIndex = (Number(page) - 1) * LIMIT; 
+    const LIMIT = 4; // Number of posts per page
+    let pageNumber = Number(page) || 1;
 
+    try {
         const total = await PostMessage.countDocuments({});
+        const totalPages = Math.ceil(total / LIMIT);
+
+        if (pageNumber < 1) {
+            pageNumber = 1;
+        } else if (pageNumber > totalPages) {
+            pageNumber = totalPages;
+        }
+
+        const startIndex = (pageNumber - 1) * LIMIT;
+
         const posts = await PostMessage.find().sort({ _id: -1 }).limit(LIMIT).skip(startIndex);
 
-        res.json({ data: posts, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) });
+        res.json({ data: posts, currentPage: pageNumber, totalPages: totalPages });
     } catch (error) {
-        console.log(error);;
+        console.log(error);
+        res.status(500).json({ message: 'Something went wrong' });
     }
-}
-
+};
 
 export const getPostsBySearch = async (req: Request, res: Response): Promise<void> => {
     const { searchQuery, tags, name, description } = req.query as { searchQuery?: string; tags?: string; name?: string; description?: string};

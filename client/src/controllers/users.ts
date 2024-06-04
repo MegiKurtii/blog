@@ -1,21 +1,20 @@
 import { Dispatch } from 'redux';
 import * as api from '../api';
-import { FETCH_BY_SEARCH, FETCH_ALL, CREATE, UPDATE, DELETE, START_LOADING, END_LOADING } from '../constants/actionTypes';
+import {  DELETE_USER, UPDATE_USER } from '../constants/actionTypes';
 
-export const updateProfile = () => async (dispatch: Dispatch) => {
-
+export const updateUser = (id: string, user: object) => async (dispatch: Dispatch) => {
     try {
-      
+        const { data } = await api.updateUser(id, user);
+        dispatch({ type: UPDATE_USER, data });
     } catch (error) {
         console.log(error);
     }
 };
 
-export const deleteProfile = (searchQuery: any) => async (dispatch: Dispatch) => {
+export const deleteUser = (id: string) => async (dispatch: Dispatch) => {
     try {
-        dispatch({ type: START_LOADING });
-        const { data: { data } } = await api.fetchPostsBySearch(searchQuery);
-
+        await api.deleteUser(id);
+        dispatch({ type: DELETE_USER });
     } catch (error) {
         console.log(error);
     }

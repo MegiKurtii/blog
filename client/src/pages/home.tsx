@@ -1,11 +1,12 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../index.css';
 import Posts from '../components/posts/posts';
 import Form from '../components/forms/addPostForm';
 import MyPagination from '../components/pagination';
-import { useDispatch } from 'react-redux';
-import { getPostBySearch } from '../controllers/posts';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPostBySearch, getPosts } from '../controllers/posts';
+import { PostsState } from '../reducers/posts';
 
 function useQuery() {
     return new URLSearchParams(useLocation().search);
@@ -13,15 +14,26 @@ function useQuery() {
 
 const Home: React.FC = () => {
     const query = useQuery();
-    const [currentId, setCurrentId] = useState<string | null>(null);
-    const searchQuery = query.get('searchQuery');
+    const page = Number(query.get('page') || 1);
     const dispatch: any = useDispatch();
     const navigate = useNavigate();
+    const [currentId, setCurrentId] = useState<string | null>(null);
+    const searchQuery = query.get('searchQuery');
     const [search, setSearch] = useState('');
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [tags, setTags] = useState<string[]>([]);
-    const page = query.get('page') || 1;
+
+    useEffect(() => {
+        dispatch(getPosts(page));
+    }, [dispatch, page]);
+
+
+    useEffect(() => {
+        if (!searchQuery && tags.length === 0) {
+            dispatch(getPosts(page));
+        }
+    }, [dispatch, page, searchQuery, tags]);
 
 
     const searchPost = () => {
@@ -56,7 +68,6 @@ const Home: React.FC = () => {
     const handleTagsChange = (e: ChangeEvent<HTMLInputElement>) => {
         setTags(e.target.value.split(','));
     };
-
     return (
         <div>
             <div className="flex">
@@ -65,7 +76,6 @@ const Home: React.FC = () => {
                     <form className="bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-8" style={{ width: '80%', marginLeft: '7%', marginBottom: '4%' }}>
                         <input
                             type="text"
-                            name="search"
                             value={search}
                             className="w-full border border-gray-300 rounded px-3 py-2 mb-4"
                             placeholder="Search by title"
@@ -74,7 +84,6 @@ const Home: React.FC = () => {
                         /><br />
                         <input
                             type="text"
-                            name="search"
                             value={name}
                             className="w-full border border-gray-300 rounded px-3 py-2 mb-4"
                             placeholder="Search by creator"
@@ -83,7 +92,6 @@ const Home: React.FC = () => {
                         /><br />
                         <input
                             type="text"
-                            name="search"
                             value={description}
                             className="w-full border border-gray-300 rounded px-3 py-2 mb-4"
                             placeholder="Search by description"
@@ -108,7 +116,7 @@ const Home: React.FC = () => {
                     </form>
                     <Form currentId={currentId} setCurrentId={setCurrentId} />
                     {(!searchQuery && tags.length === 0) && (
-                        <MyPagination currentPage={page} totalPages url/>
+                        <MyPagination page={page} totalPages={3} />
                     )}
                 </div>
             </div>

@@ -20,7 +20,6 @@ interface User {
     name: string | number | readonly string[] | undefined;
     result: {
         name: string;
-        // other properties if needed
     };
 }
 

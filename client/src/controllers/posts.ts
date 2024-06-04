@@ -1,6 +1,7 @@
 
 import { Dispatch } from 'redux';
 import * as api from '../api';
+import { fetchPosts } from '../api';
 import { FETCH_BY_SEARCH, FETCH_ALL, CREATE, UPDATE, DELETE, START_LOADING, FETCH_POST, END_LOADING } from '../constants/actionTypes';
 
 export const getPost = (id: any) => async (dispatch: Dispatch) => {
@@ -15,16 +16,15 @@ export const getPost = (id: any) => async (dispatch: Dispatch) => {
     }
 };
 
-export const getPosts = (page:any) => async (dispatch: Dispatch) => {
-
+export const getPosts = (page: number) => async (dispatch: Dispatch) => {
     try {
         dispatch({ type: START_LOADING });
-        const { data: { data, currentPage, numberOfPages } } = await api.fetchPosts(page);
-
-        dispatch({ type: FETCH_ALL, payload: { data, currentPage, numberOfPages } });
-        dispatch({ type: END_LOADING });
+        const { data: { data, currentPage, totalPages } } = await fetchPosts(page);
+        dispatch({ type: FETCH_ALL, payload: { data, currentPage, totalPages } });
     } catch (error) {
-        console.log(error);
+        console.error('Error fetching posts:', error);
+    } finally {
+        dispatch({ type: END_LOADING });
     }
 };
 
@@ -65,7 +65,7 @@ export const deletePosts = (id: any) => async (dispatch: Dispatch) => {
 
 
     try {
-        await await api.deletePost(id);
+         await api.deletePost(id);
 
         dispatch({ type: DELETE, payload: id });
     } catch (error) {

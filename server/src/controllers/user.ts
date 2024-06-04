@@ -1,11 +1,12 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import User from '../models/Users'; 
+import User from '../models/Users';
+import mongoose from 'mongoose';
 
 const secret = 'test';
 
-export const signin = async (req:Request, res:Response) => {
+export const signin = async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
     try {
@@ -46,3 +47,42 @@ export const signup = async (req: Request, res: Response) => {
         console.log(error);
     }
 };
+
+export const updateUser = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { email, oldPassword, newPassword, firstName, lastName } = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No user with id: ${id}`);
+
+    try {
+        const user = await User.findById(id);
+
+        if (!user) return res.status(404).send(`No user with id: ${id}`);
+
+        const isPasswordCorrect = await bcrypt.compare(oldPassword, user.password);
+
+        if (!isPasswordCorrect) return res.status(400).json({ message: "Invalid old password" });
+
+        let updatedFields: any = { email, name: `${firstName} ${lastName}` };
+
+        if (newPassword) {
+            const hashedPassword = await bcrypt.hash(newPassword, 12);
+            updatedFields.password = hashedPassword;
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(id, updatedFields, { new: true });
+
+        res.json(updatedUser);
+    } catch (error) {
+        res.status(500).json({ message: "Something went wrong" });
+    }
+};
+export const deleteUser = async (req: Request, res: Response) => {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No user with id: ${id}`);
+
+    await User.findByIdAndDelete(id);
+
+    res.json({ message: "User deleted successfully." });
+}

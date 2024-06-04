@@ -6,6 +6,8 @@ import About from "../pages/about";
 import Auth from '../components/signin';
 import AuthRegister from '../pages/signup';
 import PostDetails from '../components/postDetails';
+import Account from "../pages/account";
+import EditAccount from "../pages/edit";
 
 export default function MainRoutes() {
 
@@ -15,6 +17,12 @@ export default function MainRoutes() {
 
             <Routes>
                 <Route path="/" element={
+                    <div>
+                        <Nav />
+                        <Header />
+                        <Home />
+                    </div>} />
+                <Route path="/page/:pageNumber" element={
                     <div>
                         <Nav />
                         <Header />
@@ -40,6 +48,18 @@ export default function MainRoutes() {
                     <div>
                         <Nav />
                         <About />
+                    </div>
+                } />
+                <Route path="/edit" element={
+                    <div>
+                        <Nav />
+                        <EditAccount />
+                    </div>
+                } />
+                <Route path="/account" element={
+                    <div>
+                        <Nav />
+                        <Account />
                     </div>
                 } />
                 <Route path="/auth" element={

@@ -1,42 +1,32 @@
-import React from 'react';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation, useParams } from 'react-router-dom';
 import { getPosts } from '../controllers/posts';
-import '../index.css';
 
 interface PaginationProps {
-    currentPage: any;
+    page: number;
     totalPages: any;
-    url: any;
 }
 
-const MyPagination: React.FC<PaginationProps> = ({ currentPage, totalPages, url }) => {
-
-    const numberOfPages = [];
-    for (let i = 1; i <= totalPages; i++) {
-        numberOfPages.push(i);
-    }
-    const dispatch :any = useDispatch();
-
+const MyPagination: React.FC<PaginationProps> = ({ page, totalPages }) => {
+    const { page: currentPage } = useParams<{ page: string }>();
+    const dispatch: any = useDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
-        if (currentPage) {
-            dispatch(getPosts(currentPage));
-        }
+        const pageNumber = currentPage ? parseInt(currentPage, 10) : 1;
+        dispatch(getPosts(pageNumber));
     }, [dispatch, currentPage]);
+
     return (
-        <nav>
-            <ul>
-                {numberOfPages.map(number => (
-                    <li key={number}>
-                        <Link to={`${url}?page=${number}`} className={number === currentPage ? 'page-link active' : 'page-link'}>
-                            {number}
-                        </Link>
-                    </li>
-                ))}
-            </ul>
-        </nav>
+        <div style={{ marginTop: '3%', textAlign:'center' }}>
+            {[...Array(totalPages)].map((_, index) => (
+                <Link style={{ paddingLeft: '1%', border: '1px solid gray', margin: '1%', paddingRight: '1%', borderRadius: '25%', backgroundColor:'#3b8eae',color:'white' }} key={index} to={`/?page=${index + 1}`}>
+                     {index + 1}
+                </Link>
+            ))}
+        </div>
     );
 };
 

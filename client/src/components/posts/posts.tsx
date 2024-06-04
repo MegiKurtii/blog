@@ -26,17 +26,19 @@ interface PostsProps {
 const Posts: React.FC<PostsProps> = ({ setCurrentId }) => {
     const { isLoading, posts } = useSelector((state: RootState) => state.posts);
 
-    if (isLoading) return <LoadingSpinner />;
+    // If posts is undefined or null, return null or render a loading spinner
+    if (!posts) {
+        if (isLoading) return <LoadingSpinner />;
+        return null;
+    }
 
     return (
         <div className="grid" style={{ gridTemplateColumns: 'repeat(2, 45%)', paddingLeft: '5%', width: '80%' }}>
-           
             {posts.map((post) => (
                 <div key={post._id} className="grid-item">
                     <Post post={post} setCurrentId={setCurrentId} />
                 </div>
-            )
-            )}
+            ))}
         </div>
     );
 };

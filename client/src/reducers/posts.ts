@@ -1,7 +1,7 @@
-
 import { FETCH_BY_SEARCH, FETCH_ALL, CREATE, UPDATE, DELETE, START_LOADING, END_LOADING } from '../constants/actionTypes';
 
 export interface Post {
+    posts: any;
     _id: string;
     title: string;
     name: string;
@@ -12,17 +12,19 @@ export interface Action {
     payload: any;
 }
 
-interface PostsState {
+const initialState = {
+    isLoading: true,
+    posts: [],
+    currentPage: 1,
+    numberOfPages: 1,
+};
+
+export interface PostsState {
     isLoading: boolean;
     posts: Post[];
     currentPage?: number;
     numberOfPages?: number;
 }
-
-const initialState: PostsState = {
-    isLoading: true,
-    posts: [],
-};
 
 const postsReducer = (state: PostsState = initialState, action: Action): PostsState => {
     switch (action.type) {
@@ -34,10 +36,11 @@ const postsReducer = (state: PostsState = initialState, action: Action): PostsSt
             return { isLoading: false, posts: action.payload.data };
         case FETCH_ALL:
             return {
-                isLoading: false,
+                ...state,
                 posts: action.payload.data,
                 currentPage: action.payload.currentPage,
-                numberOfPages: action.payload.numberOfPages,};
+                numberOfPages: action.payload.totalPages,
+            };
         case CREATE:
             return { isLoading: state.isLoading, posts: [...state.posts, action.payload] };
         case UPDATE:

@@ -1,55 +1,49 @@
-import React from 'react';
-import moment from 'moment';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { deleteProfile } from '../controllers/users';
-import { updateProfile } from '../controllers/users';
+import { deleteUser } from '../controllers/users';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-/*export interface User {
-    firstName: string;
-    lastName: string;
-    email: string;
-}
-interface UserProps {
-    user: User;
-    setCurrentId: React.Dispatch<React.SetStateAction<string | null>>;
-}*/
 const Account = () => {
-    const profile = JSON.parse(localStorage.getItem('profile') || '{}');
+    const [user, setUser] = useState(() => {
+        const storedUser = localStorage.getItem('profile');
+        return storedUser ? JSON.parse(storedUser) : null;
+    });
+    const location = useLocation();
+    const navigate = useNavigate();
+    const dispatch: any = useDispatch();
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem('profile');
+        if (storedUser) {
+            const parsedUser = JSON.parse(storedUser);
+            setUser(parsedUser);
+        } else {
+            setUser(null);
+        }
+    }, [location]);
+
+    const handleEdit = () => {
+        navigate('/edit');
+    };
+
+    const handleDelete = () => {
+        dispatch(deleteUser(user.result._id));
+        localStorage.removeItem('profile');
+        navigate('/login');
+    };
 
     return (
-        <div className="rounded overflow-hidden shadow-lg p-4 m-4 bg-white border border-gray-200 relative transition duration-300 ease-in-out transform hover:-translate-y-1"
-            style={{ width: '50%' ,marginTop:'20%'}}
-        >
-
-            <div className="absolute top-0 left-0 w-full text-center" style={{ backgroundColor: 'rgb(0 0 0 / 0.1)', color: 'white', textShadow: '1px 2px black' }}>
-                <div className="font-bold text-xl mb-2">{profile.firstName}</div>
+        <div className="overflow-hidden shadow-lg p-4 m-4 bg-white border border-gray-200 relative left-1/2 -translate-x-1/2" style={{ width: '40%', marginTop: '15%', borderRadius:'3%' }}>
+            <div className="w-full ">
+                <div className="text-xl mb-2" style={{marginBottom:'3%'}}>Username: {user?.result.name}</div>
+            </div><hr/>
+            <div className="w-full ">
+                <div className="text-xl mb-2" style={{ marginTop: '3%', marginBottom: '3%' }}>Email: {user?.result.email}</div>
+            </div><hr />
+            <div className="flex mt-4" style={{ justifyContent:'space-between' }}>
+                <button onClick={handleEdit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4">Edit</button>
+                <button onClick={handleDelete} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
             </div>
-            <div className="absolute top-0 left-0 w-full text-center" style={{ backgroundColor: 'rgb(0 0 0 / 0.1)', color: 'white', textShadow: '1px 2px black' }}>
-                <div className="font-bold text-xl mb-2">{profile.lastName}</div>
-            </div>
-            <div className="absolute top-0 left-0 w-full text-center" style={{ backgroundColor: 'rgb(0 0 0 / 0.1)', color: 'white', textShadow: '1px 2px black' }}>
-                <div className="font-bold text-xl mb-2">{profile.email}</div>
-            </div>
-            <div className="absolute top-0 left-0 w-full text-center" style={{ backgroundColor: 'rgb(0 0 0 / 0.1)', color: 'white', textShadow: '1px 2px black' }}>
-                <div className="font-bold text-xl mb-2">{profile.password}</div>
-            </div>
-        
-        
-            {(profile?.result?._id === profile?.creator) && (
-                <div className="flex items-center justify-between">
-                    <button
-                        className="bg-blue-500 hover:bg-blue-600 focus:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:-translate-y-1"
-                    >
-                        Edit
-                    </button>
-                    <button
-                        className="bg-red-500 hover:bg-red-600 focus:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:-translate-y-1"
-                    >
-                        Delete
-                    </button>
-                </div>
-            )}
-
         </div>
     );
 };
