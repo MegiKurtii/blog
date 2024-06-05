@@ -20,7 +20,7 @@ const MyPagination: React.FC<PaginationProps> = ({ page, totalPages }) => {
     }, [dispatch, currentPage]);
 
     return (
-        <div style={{ marginTop: '3%', textAlign:'center' }}>
+        <div style={{ marginTop: '3%', textAlign: 'center', marginBottom: '3%' }}>
             {[...Array(totalPages)].map((_, index) => (
                 <Link style={{ paddingLeft: '1%', border: '1px solid gray', margin: '1%', paddingRight: '1%', borderRadius: '25%', backgroundColor:'#3b8eae',color:'white' }} key={index} to={`/?page=${index + 1}`}>
                      {index + 1}

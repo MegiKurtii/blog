@@ -1,4 +1,4 @@
-import { FETCH_BY_SEARCH, FETCH_ALL, CREATE, UPDATE, DELETE, COMMENT, FETCH_POST } from '../constants/actionTypes';
+import { FETCH_BY_SEARCH, FETCH_ALL, CREATE, UPDATE, DELETE, COMMENT, FETCH_POST,LIKE } from '../constants/actionTypes';
 
 export interface Post {
     name: string;
@@ -30,6 +30,7 @@ export interface PostsState {
     post?: Post | null;
     currentPage?: number;
     totalPages?: number;
+    likes?: number;
 }
 export interface RootState {
     posts: PostsState;
@@ -47,6 +48,8 @@ const postsReducer = (state: PostsState = initialState, action: Action): PostsSt
                 currentPage: action.payload.currentPage,
                 totalPages: action.payload.totalPages,
             };
+        case LIKE:
+            return { ...state, posts: state.posts.map((post) => (post._id === action.payload._id ? action.payload : post)) };
         case COMMENT:
             return {
                 ...state,

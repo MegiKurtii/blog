@@ -33,7 +33,7 @@ const Posts: React.FC<PostsProps> = ({ setCurrentId }) => {
     }
 
     return (
-        <div className="grid" style={{ gridTemplateColumns: 'repeat(2, 45%)', paddingLeft: '5%' }}>
+        <div className="grid" style={{ gridTemplateColumns: 'repeat(3, 30%)', paddingLeft: '5%' }}>
             {posts.map((post) => (
                 <div key={post._id} className="grid-item">
                     <Post post={post} setCurrentId={setCurrentId} />

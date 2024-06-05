@@ -90,8 +90,8 @@ const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
 
     if (!user?.result?.name) {
         return (
-                <h6>
-                    Please Sign In to share your own recipes.
+            <h6 className="overflow-hidden shadow-lg p-4 m-4 bg-white border border-gray-200 relative left-1/2 -translate-x-1/2 text-center">
+                    Please Sign In to share your own recipes <br/>and like and comment other user's posts.
                 </h6>
         );
     }
@@ -99,7 +99,7 @@ const Form: React.FC<FormProps> = ({ currentId, setCurrentId }) => {
     return (
         <div className="bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-8" style={{ width: '80%', marginLeft: '7%' }}>
             <form onSubmit={handleSubmit}>
-                <h6 className="text-lg text-center py-2">{currentId ? `Edit ${post.title}` : 'Share your recipe with others'}</h6>
+                <h6 className="text-center py-2 mb-4" style={{fontSize:'x-large'}}>{currentId ? `Edit ${post.title}` : 'Share your recipe with others'}</h6>
                 <input
                     type="text"
                     required

@@ -6,7 +6,7 @@ import Form from '../components/forms/addPostForm';
 import MyPagination from '../components/pagination';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPostBySearch, getPosts } from '../controllers/posts';
-import { PostsState, RootState } from '../reducers/posts';
+import { RootState } from '../reducers/posts';
 
 function useQuery() {
     return new URLSearchParams(useLocation().search);
@@ -71,15 +71,12 @@ const Home: React.FC = () => {
 
     return (
         <div>
-            <div className="flex">
-                <div style={{ width: '65%', marginBottom: '5%' }}>
-                    <Posts setCurrentId={setCurrentId} />
-                    {(!searchQuery && tags.length === 0) && (
-                        <MyPagination page={currentPage} totalPages={totalPages} />
-                    )}
-                </div>
-                <div>
-                    <form className="bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-8" style={{ width: '80%', marginLeft: '7%', marginBottom: '4%' }}>
+            <div>
+                <div className="flex" style={{ justifyContent: 'space-around' }}>
+                    <div style={{width:'45%'}}>
+                        <Form currentId={currentId} setCurrentId={setCurrentId} />
+                    </div>
+                    <form className="bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-8" style={{ marginBottom: '4%', height: 'fit-content'}}>
                         <input
                             type="text"
                             value={search}
@@ -120,10 +117,15 @@ const Home: React.FC = () => {
                             Search
                         </button>
                     </form>
-                    <Form currentId={currentId} setCurrentId={setCurrentId} />
+                </div>
+                   
+
+                <Posts setCurrentId={setCurrentId} />
+                {(!searchQuery && tags.length === 0) && (
+                    <MyPagination page={currentPage} totalPages={totalPages} />
+                )}
                 </div>
             </div>
-        </div>
     );
 };
 

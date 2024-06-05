@@ -55,7 +55,7 @@ const Nav: React.FC = () => {
             } else {
                 // Large screens
                 setNavStyle({
-                    width: '45%',
+                    width: '50%',
                     padding: '1%',
                     left: '50%',
                     transform: 'translateX(-50%)',

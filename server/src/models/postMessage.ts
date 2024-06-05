@@ -9,6 +9,7 @@ interface IPost extends Document {
     selectedFile: string;
     createdAt: Date;
     creator: String;
+    likes: string[];
     comments: string[];
 }
 
@@ -20,6 +21,7 @@ const postSchema: Schema<IPost> = new Schema({
     description: String,
     tags: [String],
     selectedFile: String,
+    likes: { type: [String], default: [] },
     comments: { type: [String], default: [] },
     createdAt: {
         type: Date,

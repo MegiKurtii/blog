@@ -42,7 +42,7 @@ const PostDetails: React.FC = () => {
    
 
     return (
-        <div className="border border-gray-200 rounded-lg shadow-lg" style={{ margin: '1%', marginTop: '10%', padding: '6%' }}>
+        <div className="border border-gray-200 rounded-lg shadow-lg" style={{ margin: '2%', marginTop: '10%', padding: '6%' }}>
             <div>
                 <h1 className="text-2xl text-center font-bold mb-4" style={{ fontFamily: 'cursive' }}>{post.title}</h1>
                 <div className="flex" style={{ justifyContent: 'space-between' }}>
