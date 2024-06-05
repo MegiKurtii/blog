@@ -6,7 +6,7 @@ import Form from '../components/forms/addPostForm';
 import MyPagination from '../components/pagination';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPostBySearch, getPosts } from '../controllers/posts';
-import { PostsState } from '../reducers/posts';
+import { PostsState, RootState } from '../reducers/posts';
 
 function useQuery() {
     return new URLSearchParams(useLocation().search);
@@ -24,17 +24,17 @@ const Home: React.FC = () => {
     const [description, setDescription] = useState('');
     const [tags, setTags] = useState<string[]>([]);
 
+    const { isLoading, currentPage, totalPages } = useSelector((state: RootState) => state.posts);
+
     useEffect(() => {
         dispatch(getPosts(page));
     }, [dispatch, page]);
-
 
     useEffect(() => {
         if (!searchQuery && tags.length === 0) {
             dispatch(getPosts(page));
         }
     }, [dispatch, page, searchQuery, tags]);
-
 
     const searchPost = () => {
         const searchCriteria = {
@@ -48,7 +48,7 @@ const Home: React.FC = () => {
     };
 
     const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.keyCode === 13) {
+        if (e.key === 'Enter') {
             searchPost();
         }
     };
@@ -68,13 +68,14 @@ const Home: React.FC = () => {
     const handleTagsChange = (e: ChangeEvent<HTMLInputElement>) => {
         setTags(e.target.value.split(','));
     };
+
     return (
         <div>
             <div className="flex">
-                <div style={{width:'65%',marginBottom:'5%'}}>
+                <div style={{ width: '65%', marginBottom: '5%' }}>
                     <Posts setCurrentId={setCurrentId} />
                     {(!searchQuery && tags.length === 0) && (
-                        <MyPagination page={page} totalPages={3} />
+                        <MyPagination page={currentPage} totalPages={totalPages} />
                     )}
                 </div>
                 <div>
@@ -120,7 +121,6 @@ const Home: React.FC = () => {
                         </button>
                     </form>
                     <Form currentId={currentId} setCurrentId={setCurrentId} />
-                   
                 </div>
             </div>
         </div>

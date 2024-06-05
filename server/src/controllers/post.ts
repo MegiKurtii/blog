@@ -32,6 +32,7 @@ export const getPosts = async (req: Request, res: Response) => {
     }
 };
 
+
 export const getPostsBySearch = async (req: Request, res: Response): Promise<void> => {
     const { searchQuery, tags, name, description } = req.query as { searchQuery?: string; tags?: string; name?: string; description?: string};
 
@@ -67,7 +68,7 @@ export const getPost = async (req: Request, res: Response) => {
 
         res.status(200).json(post);
     } catch (error) {
-        res.status(404).json({ message: "Failed to fetch posts." });
+        console.log(error);
     }
 }
 
@@ -109,3 +110,22 @@ export const deletePost = async (req: Request, res: Response) => {
 
     res.json({ message: "Post deleted successfully." });
 }
+
+export const commentPost = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { value } = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+
+    const post = await PostMessage.findById(id);
+
+    if (!post) {
+        return res.status(404).json({ message: 'Post not found' });
+    }
+
+    post.comments.push(value);
+
+    const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true });
+
+    res.json(updatedPost);
+};

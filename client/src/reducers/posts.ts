@@ -1,10 +1,15 @@
-import { FETCH_BY_SEARCH, FETCH_ALL, CREATE, UPDATE, DELETE, START_LOADING, END_LOADING } from '../constants/actionTypes';
+import { FETCH_BY_SEARCH, FETCH_ALL, CREATE, UPDATE, DELETE, COMMENT, FETCH_POST } from '../constants/actionTypes';
 
 export interface Post {
-    posts: any;
+    name: string;
     _id: string;
     title: string;
-    name: string;
+    selectedFile: string;
+    createdAt: Date;
+    creator: string,
+    tags: string[];
+    description: string;
+    comments: string[];
 }
 
 export interface Action {
@@ -16,45 +21,52 @@ const initialState = {
     isLoading: true,
     posts: [],
     currentPage: 1,
-    numberOfPages: 1,
+    totalPages: 1,
 };
 
 export interface PostsState {
     isLoading: boolean;
     posts: Post[];
+    post?: Post | null;
     currentPage?: number;
-    numberOfPages?: number;
+    totalPages?: number;
 }
-
+export interface RootState {
+    posts: PostsState;
+}
 const postsReducer = (state: PostsState = initialState, action: Action): PostsState => {
     switch (action.type) {
-        case START_LOADING:
-            return { isLoading: true, posts: state.posts };
-        case END_LOADING:
-            return { isLoading: false, posts: state.posts };
-        case FETCH_BY_SEARCH:
-            return { isLoading: false, posts: action.payload.data };
+        case 'START_LOADING':
+            return { ...state, isLoading: true };
+        case 'END_LOADING':
+            return { ...state, isLoading: false };
         case FETCH_ALL:
             return {
                 ...state,
                 posts: action.payload.data,
                 currentPage: action.payload.currentPage,
-                numberOfPages: action.payload.totalPages,
+                totalPages: action.payload.totalPages,
             };
+        case COMMENT:
+            return {
+                ...state,
+                posts: state.posts.map((post) => {
+                    if (post._id === action.payload._id) {
+                        return action.payload;
+                    }
+                    return post;
+                }),
+            };
+        case FETCH_BY_SEARCH:
+            return { ...state, posts: action.payload.data };
+        case FETCH_POST:
+            return { ...state, post: action.payload.post };
         case CREATE:
-            return { isLoading: state.isLoading, posts: [...state.posts, action.payload] };
+            return { ...state, posts: [...state.posts, action.payload] };
         case UPDATE:
-            return {
-                isLoading: state.isLoading,
-                posts: state.posts.map((post) =>
-                    post._id === action.payload._id ? action.payload : post
-                ),
-            };
+            return { ...state, posts: state.posts.map((post) => (post._id === action.payload._id ? action.payload : post)) };
         case DELETE:
-            return {
-                isLoading: state.isLoading,
-                posts: state.posts.filter((post) => post._id !== action.payload),
-            };
+            return { ...state, posts: state.posts.filter((post) => post._id !== action.payload) };
         default:
             return state;
     }

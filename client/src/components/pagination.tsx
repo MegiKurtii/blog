@@ -4,7 +4,7 @@ import { Link, useNavigate, useLocation, useParams } from 'react-router-dom';
 import { getPosts } from '../controllers/posts';
 
 interface PaginationProps {
-    page: number;
+    page: any;
     totalPages: any;
 }
 

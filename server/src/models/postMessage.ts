@@ -9,6 +9,7 @@ interface IPost extends Document {
     selectedFile: string;
     createdAt: Date;
     creator: String;
+    comments: string[];
 }
 
 // Define the schema
@@ -19,6 +20,7 @@ const postSchema: Schema<IPost> = new Schema({
     description: String,
     tags: [String],
     selectedFile: String,
+    comments: { type: [String], default: [] },
     createdAt: {
         type: Date,
         default: new Date()

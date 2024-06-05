@@ -36,6 +36,7 @@ export default function MainRoutes() {
                     </div>} />
                 <Route path="/posts/:id" element={
                     <div>
+                        <Nav />
                         <PostDetails />
                     </div>} />
                 <Route path="/signin" element={
