@@ -2,7 +2,7 @@
 import { Dispatch } from 'redux';
 import * as api from '../api';
 import { fetchPosts } from '../api';
-import { FETCH_BY_SEARCH, FETCH_ALL, CREATE, UPDATE, DELETE, START_LOADING, FETCH_POST, END_LOADING,COMMENT } from '../constants/actionTypes';
+import { FETCH_BY_SEARCH, FETCH_ALL, CREATE, UPDATE, DELETE, START_LOADING, FETCH_POST, END_LOADING,COMMENT,LIKE } from '../constants/actionTypes';
 
 export const getPost = (id: any) => async (dispatch: Dispatch) => {
     try {
@@ -84,3 +84,5 @@ export const commentPost = (value:any, id:string) => async (dispatch:Dispatch) =
         console.log(error);
     }
 };
+
+

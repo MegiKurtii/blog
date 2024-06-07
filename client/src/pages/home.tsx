@@ -73,10 +73,10 @@ const Home: React.FC = () => {
         <div>
             <div>
                 <div className="flex" style={{ justifyContent: 'space-around' }}>
-                    <div style={{width:'45%'}}>
+                    <div style={{ width: '45%' }}>
                         <Form currentId={currentId} setCurrentId={setCurrentId} />
                     </div>
-                    <form className="bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-8" style={{ marginBottom: '4%', height: 'fit-content'}}>
+                    <form className="bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-8" style={{ marginBottom: '4%', height: 'fit-content' }}>
                         <input
                             type="text"
                             value={search}
@@ -118,14 +118,14 @@ const Home: React.FC = () => {
                         </button>
                     </form>
                 </div>
-                   
+
 
                 <Posts setCurrentId={setCurrentId} />
                 {(!searchQuery && tags.length === 0) && (
                     <MyPagination page={currentPage} totalPages={totalPages} />
                 )}
-                </div>
             </div>
+        </div>
     );
 };
 

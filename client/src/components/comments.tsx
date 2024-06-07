@@ -34,6 +34,13 @@ const CommentSection: FC<CommentSectionProps> = ({ post }) => {
         }
     };
 
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            handleComment();
+        }
+    };
+
     return (
         <div className="p-4">
             <div className="mb-4">
@@ -51,12 +58,14 @@ const CommentSection: FC<CommentSectionProps> = ({ post }) => {
                 <textarea
                     className="w-full p-2 border rounded mb-2"
                     rows={4}
-                    placeholder="Comment"
+                    placeholder={user ? "Comment" : "Please log in to comment."}
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
-                    style={{maxHeight:'200px'}}
+                    onKeyDown={handleKeyPress}
+                    disabled={!user}
+                    style={{ maxHeight: '200px' }}
                 />
-                {user ? (
+                {user && (
                     <button
                         className="w-full bg-blue-500 text-white py-2 rounded disabled:opacity-50"
                         disabled={!comment.length}
@@ -64,8 +73,6 @@ const CommentSection: FC<CommentSectionProps> = ({ post }) => {
                     >
                         Comment
                     </button>
-                ) : (
-                    <p className="text-red-500">Please log in to comment.</p>
                 )}
             </div>
         </div>

@@ -3,7 +3,7 @@ import moment from 'moment';
 import { useDispatch } from 'react-redux';
 import { deletePosts } from '../../../controllers/posts'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisV ,faTrash} from '@fortawesome/free-solid-svg-icons';
+import { faEllipsisV, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -38,7 +38,7 @@ const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
     return (
         <div className="rounded overflow-hidden shadow-lg p-4 m-4 bg-white border border-gray-200 relative transition duration-300 ease-in-out transform hover:-translate-y-1">
 
-            <button onClick={ postDetails}>
+            <button onClick={postDetails}>
                 {post.selectedFile && (
                     <div className="relative">
                         <img className="w-full h-48 mb-4" style={{ borderRadius: '10px' }} src={post.selectedFile} alt="Post" />
@@ -58,25 +58,24 @@ const Post: React.FC<PostProps> = ({ post, setCurrentId }) => {
                     <span className="text-gray-500">{moment(post.createdAt).fromNow()}</span>
                 </div>
             </button>
-                {(user?.result?._id === post?.creator) && (
-                    <div>
-                        <button
-                            onClick={handleClick}
-                            className="absolute text-white  px-2 rounded"
-                            style={{ top: '4%', right: '7%', fontSize: 'larger', backgroundColor: '#00000091' }}
-                        >
-                            <FontAwesomeIcon icon={faEllipsisV} size="sm" />
-                        </button>
-                        <button
-                            onClick={() => dispatch(deletePosts(post._id))}
-                            className="absolute bg-red-500 hover:bg-red-600 focus:bg-red-700 text-white font-bold px-2 rounded "
-                            style={{ top: '4%', left: '7%' }}
-                        >
-                            <FontAwesomeIcon icon={faTrash} size="sm" />
-                        </button>
-                    </div>
-                )}
-
+            {(user?.result?._id === post?.creator) && (
+                <div>
+                    <button
+                        onClick={handleClick}
+                        className="absolute text-white  px-2 rounded"
+                        style={{ top: '4%', right: '7%', fontSize: 'larger', backgroundColor: '#00000091' }}
+                    >
+                        <FontAwesomeIcon icon={faEllipsisV} size="sm" />
+                    </button>
+                    <button
+                        onClick={() => dispatch(deletePosts(post._id))}
+                        className="absolute bg-red-500 hover:bg-red-600 focus:bg-red-700 text-white font-bold px-2 rounded "
+                        style={{ top: '4%', left: '7%' }}
+                    >
+                        <FontAwesomeIcon icon={faTrash} size="sm" />
+                    </button>
+                </div>
+            )}
         </div>
     );
 };

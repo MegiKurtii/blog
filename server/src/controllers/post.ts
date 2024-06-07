@@ -8,7 +8,7 @@ interface AuthRequest extends Request {
 
 export const getPosts = async (req: Request, res: Response) => {
     const { page } = req.query;
-    const LIMIT = 6; // Number of posts per page
+    const LIMIT = 9; // Number of posts per page
     let pageNumber = Number(page) || 1;
 
     try {
